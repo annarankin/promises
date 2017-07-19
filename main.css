@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: deepskyblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.wrapper {
+  background-color: white;
+  border-radius: 20px;
+  padding: 50px;
+}
+
+.wrapper p {
+  font-size: 30px;
+  color: navy;
+}
+
+#content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.pokemon {
+  display: inline-block;
+  border: 5px solid #EEE;
+  padding: 16px;
+  min-width: 200px;
+  margin: 20px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
