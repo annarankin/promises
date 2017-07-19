@@ -10,25 +10,36 @@ var promise = new Promise((resolve, reject) => {
 
 /* Uncomment and refresh; watch the console. */
 
-// promise.then((message) => {
-//   console.log('Promise is over! Got:', message)
-// })
+function printMessage(thing) {
+  console.log(thing)
+}
 
+promise.then(printMessage)
+
+class FakePromise {
+  constructor(callback) {
+    this.callback = callback
+  }
+
+  then(resolve) {
+    this.callback(resolve)
+  }
+}
 
 // ---- Part the Second: Handling failure ----
 
 var $content = $('#content')
 
-var secondPromise = new Promise((resolve, reject) => {
-  var magicNumber = 3
-  setTimeout(() => {
-    if (magicNumber < 10) {
-      resolve(magicNumber)
-    } else {
-      reject(`ERROR: ${magicNumber} is not greater than ten.`)
-    }
-  }, 1500)
-})
+// var secondPromise = new Promise((resolve, reject) => {
+//   var magicNumber = 30
+//   setTimeout(() => {
+//     if (magicNumber < 10) {
+//       resolve(magicNumber)
+//     } else {
+//       reject(`ERROR: ${magicNumber} is not less than ten. doy`)
+//     }
+//   }, 1500)
+// })
 
 /*
   Uncomment and refresh. Next, try changing the magicNumber to 30.
@@ -55,9 +66,7 @@ var secondPromise = new Promise((resolve, reject) => {
 
 // brokenPromise
 //   .then(console.log)
-//   .catch(error => {
-//     console.warn('Received an error:', error)
-//   })
+//   .catch(console.warn)
 
 // ---- Part the Third: Real Life ----
 
@@ -93,28 +102,35 @@ var apiEndpoint = 'http://pokeapi.co/api/v2/pokemon/pikachu'
   Uncomment the below and reload the page
 */
 
-// var numbers = [ 10, 20, 30, 40, 50 ]
+var numbers = [ 120, 20, 99, 40, 50 ]
 
-// const endpoint = id => `http://pokeapi.co/api/v2/pokemon/${id}`
+const endpoint = (id) => `http://pokeapi.co/api/v2/pokemon/${id}`
 
-// var promises = numbers.map(number => {
-//   return new Promise((resolve, reject) => {
-//     $.get(endpoint(number), (data) => {
-//       console.log(`Loaded data for pokemon #${number}!`)
-//       var pokemon = new Pokemon({
-//         name: data.name,
-//         imageUrl: data.sprites.front_default
-//       })
-//       resolve(pokemon.$displayEl)
-//     })
+var promises = numbers.map(number => {
+  return new Promise((resolve, reject) => {
+    $.get(endpoint(number), (data) => {
+      console.log(`Loaded data for pokemon #${number}!`)
+      var pokemon = new Pokemon({
+        name: data.name,
+        imageUrl: data.sprites.front_default
+      })
+      resolve(pokemon.$displayEl)
+    })
+  })
+})
+
+// promises.forEach(promise => {
+//   promise.then(($pokemonEl) => {
+//     $content.empty()
+//     $content.append($pokemonEl)
 //   })
 // })
 
-// Promise.all(promises)
-//   .then((values) => {
-//     $content.empty()
-//     $content.append(values)
-//   })
+Promise.all(promises)
+  .then((values) => {
+    $content.empty()
+    $content.append(values)
+  })
 
 // --- helper function --
 class Pokemon {
